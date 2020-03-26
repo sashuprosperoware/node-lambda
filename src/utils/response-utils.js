@@ -6,7 +6,8 @@ exports.ok = function(body){
         headers: {
           "Content-Type": "application/json"
         },
-        body: body
+        body: body ? JSON.stringify(body) : JSON.stringify({}),
+        isBase64Encoded: false
       };
     return response;
 }
@@ -17,7 +18,8 @@ exports.error = function(code, body){
         headers: {
           "Content-Type": "application/json"
         },
-        body: body
+        body: body ? JSON.stringify(body) : JSON.stringify({}),
+        isBase64Encoded: false
       };
     return response;
 }

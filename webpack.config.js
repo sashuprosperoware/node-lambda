@@ -5,10 +5,10 @@ module.exports = {
     mode: 'development',
     target: 'node',
     entry: {
-        entry: './src/entry.js'
+        entry: './src/handlers.js'
     },
     output: {
-        filename: './user-services.js',
+        filename: './services.js',
         path: path.resolve(__dirname, 'dist'),
         libraryTarget: 'umd'
     },
