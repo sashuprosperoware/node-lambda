@@ -4,7 +4,7 @@ import * as redisConfig from "../config/redis.config";
 import * as context from "../context/app.context";
 import {atob} from "atob";
 
-exports.initRequest = async function(event){
+export async function initRequest(event){
 
     let authorization = eventUtils.getKeyValue(event.headers, "Authorization", false);
     if(!authorization){

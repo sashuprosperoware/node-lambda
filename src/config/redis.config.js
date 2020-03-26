@@ -18,7 +18,7 @@ let initClient = async function(){
     return redis_client;
 }
 
-exports.getClient = async function(){
+export function getClient(){
     try{
         redis_client.get("test");
         return redis_client;
@@ -27,7 +27,7 @@ exports.getClient = async function(){
     }
 }
 
-exports.init = async function(){
+export async function init(){
     await initClient();
 }
 

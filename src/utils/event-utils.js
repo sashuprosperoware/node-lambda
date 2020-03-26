@@ -1,7 +1,7 @@
 
 import * as apiEvents from "../resources/api-gateway";
 
-exports.prepareApiGatewayEvent = function(req){
+export function prepareApiGatewayEvent(req){
     let eventObject = apiEvents.EVENT;
     let body = req.body;
     if(body){
@@ -45,7 +45,7 @@ exports.prepareApiGatewayEvent = function(req){
     return eventObject;
 }
 
-exports.resolveHandler = function(handlers, event){
+export function resolveHandler(handlers, event){
     let url = event.path;
     let method = event.httpMethod;
 
@@ -76,7 +76,7 @@ exports.resolveHandler = function(handlers, event){
     return "";
 }
 
-exports.getKeyValue = function(map, key, caseSensitive){
+export function getKeyValue(map, key, caseSensitive){
     let value = null;
     if(caseSensitive){
        value = map[key]; 

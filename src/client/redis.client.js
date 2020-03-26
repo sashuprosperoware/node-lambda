@@ -1,7 +1,7 @@
 import * as redis_config from "../config/redis.config";
 import * as context from "../context/app.context";
 
-exports.sharedKey = async function(partials){
+export async function sharedKey(partials){
     let prefix = context.getProfile()+".shared_cache";
     let key = "";
     partials.forEach(p => {
@@ -11,7 +11,7 @@ exports.sharedKey = async function(partials){
 }
 
 
-exports.getValue = async function(key){
+export async function getValue(key){
     let client = await redis_config.getClient();
     return new Promise((resolve, reject)=>{
         client.get(key, function (err, value) {
@@ -23,7 +23,7 @@ exports.getValue = async function(key){
     });
 }
 
-exports.getTenantConnectionParams = async function(key){
+export async function getTenantConnectionParams(key){
     if(context.getProfile() == 'local1'){
         let localDbConfig = context.REQUEST_CONTEXT.get().app_config.dbserver.primary;
         console.log(localDbConfig);

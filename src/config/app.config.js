@@ -2,7 +2,7 @@ import yaml from "js-yaml";
 import AWS from "aws-sdk";
 
 var appConfig = null;
-exports.loadAppConfig = async function(request){
+export async function loadAppConfig(request){
     if(!appConfig){
         let params = {
             Bucket: request.config_basepath.replace("s3:",""),
@@ -16,6 +16,6 @@ exports.loadAppConfig = async function(request){
     return appConfig;
 }
 
-exports.getAppConfig = function(){
+export function getAppConfig(){
     return appConfig;
 }

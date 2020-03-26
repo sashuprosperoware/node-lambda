@@ -1,7 +1,7 @@
 
 
-exports.ok = function(body){
-    var response = {
+export function ok(body){
+    let response = {
         statusCode: 200,
         headers: {
           "Content-Type": "application/json"
@@ -12,8 +12,8 @@ exports.ok = function(body){
     return response;
 }
 
-exports.error = function(code, body){
-    var response = {
+export function error(code, body){
+    let response = {
         statusCode: code,
         headers: {
           "Content-Type": "application/json"
