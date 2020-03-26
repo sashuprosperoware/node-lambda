@@ -10,18 +10,10 @@ let handlers = [
 ];
 
 exports.handler = async (event, context) => {
-    
-    console.log("ENVIRONMENT VARIABLES\n" + JSON.stringify(process.env, null, 2));
-    console.info("EVENT\n" + JSON.stringify(event, null, 2));
-    console.warn("Event not processed.");
-
-    console.info(JSON.stringify(event));
-
     let result = response.error(404, {"error" : "Handler Not Found"});
     let apiPath = eventutils.resolveHandler(handlers, event).handler;
-    await app_request.initRequest(event);
 
-    console.log(apiPath);
+    await app_request.initRequest(event);
     
     switch(apiPath){
         case "GET:/api/v1/metadata-definition":
