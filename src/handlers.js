@@ -12,7 +12,7 @@ let handlers = [
 
 exports.handler = async (event, context) => {
     try{
-        let result = proxyResponse.error(404, {"error" : "Handler Not Found"});
+        let result = proxyResponse.error(404, {"error" : "API Endpoint Not Found"});
         let handlerObj = eventutils.resolveHandler(handlers, event);
 
         console.log(handlerObj);

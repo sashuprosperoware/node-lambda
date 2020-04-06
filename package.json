@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node -r dotenv/config babel.config",
     "build": "webpack --config ./webpack.config.js",
-    "lint": "eslint"
+    "lint": "eslint",
+    "debug": "nodemon -r dotenv/config babel.config --inspect-brk=9229 --debug"
   },
   "author": "Sushant Ashu",
   "license": "ISC",

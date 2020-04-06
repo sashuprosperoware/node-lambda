@@ -28,4 +28,4 @@ app.post('/api/v1/metadata-definition', async (req, res) => {
     res.status(result.statusCode).send(JSON.parse(result.body));
 });
 
-app.listen(port, () => console.log(`App listening on port ${port}!`));
+app.listen(port, () => console.log(`Express App Started.Listening on port ${port}!`));
