@@ -1,16 +1,17 @@
-import * as eventUtils from "../utils/event-utils";
+import * as eventUtils from "../utils/event.utils";
 import * as appConfig from "../config/app.config";
-import * as redisConfig from "../config/redis.config";
 import * as context from "../context/app.context";
 import {atob} from "atob";
 
-export async function initRequest(event){
+export async function initRequest(event, lambdacontext){
 
     let authorization = eventUtils.getKeyValue(event.headers, "Authorization", false);
     if(!authorization){
         throw new Error("Missing Authorization Header");
     }
-
+    
+    
+    let envConfig = await appConfig.loadAppConfig(requestBean);
     let jwtTokenBody = JSON.parse(atob(authorization.replace("Bearer ", "").split(".")[1]));
     let requestBean =  {
         "tenant_id" : jwtTokenBody.tenant_id,
@@ -26,22 +27,17 @@ export async function initRequest(event){
         "cam_domain" : process.env['cam_domain'],
         "cam_s3_domain" : process.env['cam_s3_domain'],
         "event" : event,
-        "payload" : event.body && event.body.length > 0 ? JSON.parse(event.body) : null,
+        "body" : event.body && event.body.length > 0 ? JSON.parse(event.body) : null,
         "query" : event.queryStringParameters,
-        "headers" : event.headers 
+        "headers" : event.headers,
+        "lambda_context" : lambdacontext
     }
-    let config = await appConfig.loadAppConfig(requestBean);
-    requestBean.app_config = config;
+    
+    requestBean.app_config = envConfig;
 
     /**
      * Set Context On Thread
      */
     context.REQUEST_CONTEXT.set(requestBean);
-
-    /**
-     * Initialize Redis Config On Request Creation
-     */
-    await redisConfig.init();
-
     return requestBean;
 }

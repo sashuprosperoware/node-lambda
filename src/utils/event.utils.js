@@ -53,19 +53,25 @@ export function resolveHandler(handlers, event){
 
     let pathScores = [];
     handlers.forEach(p => {
+        let pathParams = {};
         let absPathParts = p.split("/");
         let relPathParts = path.split("/");
 
         let score = 0;
+        if(method == p.split(":")[0]){
+            score++;
+        }
         if(absPathParts.length == relPathParts.length){
             score++;
             for(let i = 0 ; i < relPathParts.length; i++){
                 if(relPathParts[i] == absPathParts[i]){
                     score++;
+                }else{
+                    pathParams[absPathParts[i].replace(':','')] = relPathParts[i];
                 }
             }
         }
-        pathScores.push({handler : p, score : score});
+        pathScores.push({handler : p, score : score, pathParams : pathParams});
     });
 
     pathScores.sort((a,b) => (b.score > a.score) ? 1 : -1);
