@@ -16,6 +16,12 @@ app.get('/api/v1/metadata-definition', async (req, res) => {
     res.status(result.statusCode).json(JSON.parse(result.body));
 });
 
+app.get('/api/v1/metadata-definition/pages', async (req, res) => {
+    let event = converter.prepareApiGatewayEvent(req);
+    let result = await handlers.handler(event, {});
+    res.status(result.statusCode).send(JSON.parse(result.body));
+});
+
 app.get('/api/v1/metadata-definition/:id', async (req, res) => {
     let event = converter.prepareApiGatewayEvent(req);
     let result = await handlers.handler(event, {});

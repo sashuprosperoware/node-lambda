@@ -4,8 +4,8 @@ export const SQL_TABLES  = {
         tableName : "metadata_definition",
         projections : {
             ALL : "*",
-            BASIC_INFO : "id,columnName,code,description,parent",
-            BASIC_INFO_WITH_AUDIT : "id,columnName,code,description,parent,camCreatedDate,camEditedDate,camCreatedBy,camModifiedBy"
+            BASIC_INFO : "id,codeField,descriptionField,dataType,isComposite",
+            BASIC_INFO_WITH_AUDIT : "id,codeField,descriptionField,dataType,isComposite,camCreatedDate,camEditedDate,camCreatedBy,camModifiedBy"
         }
     },
     METADATA : "metadata"

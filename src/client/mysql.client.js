@@ -24,6 +24,7 @@ export async function getConnection(){
 export async function query(query, params){
     let conn = await getConnection();
     return new Promise((resolve, reject) => {
+        console.log(conn.format(query, params));
         conn.execute(query, params, function(error, results, fields) {
             closeConnection(conn);
             if (error) {

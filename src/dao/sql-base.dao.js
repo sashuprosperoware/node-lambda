@@ -14,22 +14,19 @@ export async function findById(table, id, projection){
     return results.length == 1 ? results[0] : null;
 }
 
-export async function findAll(table, projection){
-    if(typeof projection == 'undefined' || !projection){
-        projection = "*";
-    }
-    let query = "select "+projection+" from " + table;
-    let results = await mysql_client.query(query);
-    return results;
-}
-
 export async function findByCriteria(table, criteria, projection){
     if(typeof projection == 'undefined' || !projection){
         projection = "*";
     }
+    if(!Array.isArray(criteria) || (Array.isArray(criteria) && criteria.length == 0) ){
+        criteria = [];
+    }
+
     let query = "select "+projection+" from " + table;
     let whereClause = query_utils.getWhereClause(criteria);
-    query = query + " where " + whereClause;
+    if(criteria.length > 0){
+        query = query + " where " + whereClause;
+    }
     let params = query_utils.getQueryParams(criteria);
     let results = await mysql_client.query(query, params);
     return results;
@@ -45,12 +42,22 @@ export async function findPageByCriteria(table, criteria, pageNo, pageSize, proj
     if(typeof pageSize == 'undefined' || !pageSize){
         pageSize = 100;
     }
+    if(!Array.isArray(criteria) || (Array.isArray(criteria) && criteria.length == 0) ){
+        criteria = [];
+    }
 
     let params = query_utils.getQueryParams(criteria);
     let query = "select " + projection + " from " + table;
+    let countQuery = "select count(*) from " + table;
     let whereClause = query_utils.getWhereClause(criteria);
-    query = query + " where " + whereClause;
-    let count = await mysql_client.query(query, params)[0];
+    
+    if(criteria.length > 0){
+        query = query + " where " + whereClause;
+        countQuery = countQuery + " where " + whereClause;
+    }
+
+    let countResult = await mysql_client.query(countQuery, params);
+    let count = countResult[0]['count(*)'];
 
     query = query + " limit "+(pageNo - 1) + ", " + pageSize;
     let results = await mysql_client.query(query, params);

@@ -7,15 +7,14 @@ import * as metadata_service from "./services/metadata.service";
 let handlers = [
     "GET:/api/v1/metadata-definition",
     "GET:/api/v1/metadata-definition/:id",
-    "POST:/api/v1/metadata-definition"
+    "POST:/api/v1/metadata-definition",
+    "GET:/api/v1/metadata-definition/pages"
 ];
 
 exports.handler = async (event, context) => {
     try{
         let result = proxyResponse.error(404, {"error" : "API Endpoint Not Found"});
         let handlerObj = eventutils.resolveHandler(handlers, event);
-
-        console.log(handlerObj);
         
         let apiPath = handlerObj.handler;
         let pathParams = handlerObj.pathParams;
@@ -25,13 +24,16 @@ exports.handler = async (event, context) => {
 
         switch(apiPath){
             case "GET:/api/v1/metadata-definition":
-                result = await metadata_service.fetchAllMetadataDefinition();
+                result = await metadata_service.fetchMetadataDefinition(request.query);
+                return proxyResponse.ok(result);
+            case "GET:/api/v1/metadata-definition/pages":
+                result = await metadata_service.fetchMetadataDefinitionByPage(request.query);
                 return proxyResponse.ok(result);
             case "GET:/api/v1/metadata-definition/:id":
                 result = await metadata_service.fetchMetadataDefinitionById(pathParams.id);
                 return proxyResponse.ok(result);
             case "POST:/api/v1/metadata-definition":
-                result = await metadata_service.fetchMetadataDefinitionByCriteria(request.body);
+                result = {"error" : "Method Not Implemented"};
                 return proxyResponse.ok(result);
         }
         return result;
