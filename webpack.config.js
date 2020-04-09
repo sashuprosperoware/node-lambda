@@ -8,7 +8,7 @@ module.exports = {
         entry: './src/handlers.js'
     },
     output: {
-        filename: './services.js',
+        filename: './metadata-services.js',
         path: path.resolve(__dirname, 'dist'),
         libraryTarget: 'umd'
     },

@@ -2,14 +2,15 @@ import * as eventUtils from "../utils/event.utils";
 import * as appConfig from "../config/app.config";
 import * as context from "../context/app.context";
 import {atob} from "atob";
+import { logger } from "../logger/app.logger";
 
 export async function initRequest(event, lambdacontext){
 
     let authorization = eventUtils.getKeyValue(event.headers, "Authorization", false);
     if(!authorization){
-        throw new Error("Missing Authorization Header");
+        logger.error("Missing Authorization Header in request. 401 Unauthorized Request")
+        throw new Error("Missing Authorization Header. 401 Unauthorized Request");
     }
-    
     
     let envConfig = await appConfig.loadAppConfig(requestBean);
     let jwtTokenBody = JSON.parse(atob(authorization.replace("Bearer ", "").split(".")[1]));

@@ -1,4 +1,5 @@
 import * as dbConstants from "../constants/db.constant";
+import { logger } from "../logger/app.logger";
 
 export function getWhereClause(criteria){
     let clause =  "";
@@ -20,7 +21,9 @@ export function getWhereClause(criteria){
     if(clause.endsWith("and")){
         clause = clause.substring(0, clause.length - 3).trim()
     }
-    console.log(clause);
+    
+    logger.debug("Where Clause : "+ JSON.stringify(clause));
+
     return clause;
 }
 
@@ -47,7 +50,9 @@ export function getQueryParams(criteria){
             }
         });
     }
-    console.log(values);
+    
+    logger.debug("Query Param Values : "+ JSON.stringify(values));
+
     return values;
 }
 
@@ -93,6 +98,7 @@ export function getSQLCriteriaFromQueryParams(query){
         });
     }
 
-    console.log(criteriaList);
+    logger.debug("Criteria List From Request : "+ JSON.stringify(criteriaList));
+
     return criteriaList;
 }

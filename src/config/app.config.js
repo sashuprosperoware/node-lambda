@@ -1,5 +1,6 @@
 import yaml from "js-yaml";
 import AWS from "aws-sdk";
+import {logger} from "../logger/app.logger";
 
 let appConfig = null;
 
@@ -17,7 +18,7 @@ export async function loadAppConfig(){
         let data = yaml.safeLoad(result.Body.toString());
         appConfig = data;
 
-        console.log("App Config Loaded from S3 : Path :" + params.Bucket + "/"+params.Key);
+        logger.info("App Config Loaded from S3 : Path :" + params.Bucket + "/"+params.Key);
     }
     return appConfig;
 }

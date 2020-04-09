@@ -1,4 +1,6 @@
 import * as context from "../context/app.context";
+import redis from "redis";
+import { logger } from "../logger/app.logger";
 
 export async function getClient(){
     let redis_config = context.REQUEST_CONTEXT.get().app_config.cacheConfig;
@@ -12,6 +14,8 @@ export async function getClient(){
         connectionParams.password = redis_config.password;
     }
 
+    logger.debug("Redis Connection Parameters. "+JSON.stringify(connectionParams));
+    
     let redis_client = redis.createClient(connectionParams);
     return redis_client;
 }
